@@ -1,0 +1,29 @@
+a) Same as given.
+
+$zero - always 0
+$at - reserved and do not modify.
+$v0 - return value storing the answer
+$a0 - arguments
+$a1 - arguments
+$a2 - arguments
+$t0 - temporary variables
+$t1 - temporary variables
+$t2 - temporary variables
+$s0 - for saved values that do not appear in the stack
+$s1 - for saved values that do not appear in the stack\
+$s2 - for saved values that do not appear in the stack
+$k0 - reserved for OS
+$sp - stack pointer pointing to the beginning of stacks
+$pr - frame pointer pointing to the current part of stack
+$ra - return address for subroutines to return
+
+b) Accessed through stack pointer ($sp). It points to the address with the label Stack.
+The stack goes downward, in the order of argument, return value, return address, frame pointer, and repeats.
+
+c) The caller will get the address of the callee.
+For example when multiply is called, its address will be stored in a temp register, 
+then use jalr to jump to the callee, and store the return address into $ra.
+Next, the callee stores the important data into the stack, including the return addresses.
+In multiply for example, it is only adding $v0 by itself for $a0 number of times, storing the value to be added to $v0 in $t1 using $t0 as the counter.
+Next, when the callee is done, it will get the return address from the stack and store into $ra, then jalr to $ra.
+At last, it will keep executing the instructions and get the value from multiply and factorial which is the final result.

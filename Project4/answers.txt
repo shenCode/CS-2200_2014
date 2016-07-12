@@ -1,0 +1,68 @@
+CS 2200 Fall 2014
+Project 4
+Name: Shen Yang
+GT Number: 902912328
+
+Problem 1B
+----------
+
+1 CPU: 67.6s
+2 CPUS: 35.9s
+4 CPUS: 33.1s
+By increasing the number of CPUs, the total execution time did not decrease linearly.
+It decreased exponentially.
+Because the simulated computer do not need to run more than two threads. 
+
+With 2 CPUs, most of time is spending on waiting for a thread.  
+The extra CPUs would be used more efficiently with more processes running or more multithreaded programs running.
+
+Problem 2B
+----------
+
+800 ms
+Switches: 136
+time: 67.6 s
+time in READY state: 228.2 s
+
+600 ms
+Switches: 161
+time: 67.6 s
+time in READY state: 182.0 s
+
+400 ms
+Switches: 203
+time: 67.6
+time in READY state: 134.5 s
+
+200 ms
+Switches: 362
+time: 67.5 s
+time in READY state: 71.2 s
+
+
+Waiting time has decreased linearly as the length of the time slice decreased.
+The execution time same, but switches number increased. 
+This is not always good because the processor will incur many more cache misses as it gains affinity for a new process. 
+
+Problem 3B
+----------
+
+os-sim 1
+Switches: 88
+time: 67.6 s
+time in READY state: 389.9 s
+
+os-sim 1 -r 4
+Switches: 203
+time: 67.6 s
+time in READY state: 134.5 s
+
+os-sim 1 -p
+Switches: 148
+time: 67.8 s
+time in READY state: 195.7 s
+
+Round-Robin is closest approximation of SJF. It is actually similar to SJF as it will finish the shortest process first.
+
+
+

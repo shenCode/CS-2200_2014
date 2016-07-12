@@ -1,0 +1,4 @@
+If there is no delay, when there is a timeout due to latency issue, the sender will send the same package a second time.
+When the receiver finally receives the 1st package, it sends an ACK back. When the sender receives this ACK, it'll send the 2nd package.
+However, when the duplicate of the 1st package reaches the receiver, the receiver sends another ACK to the sender.
+This ACK can be confused by the sender such that it will think it is by the 2nd package (actually from the duplicate) and the 2nd package has successfully arrived when it may be actually lost or damaged. 

@@ -1,0 +1,210 @@
+CS 2200 Fall 2014
+Homework 3
+===================
+Name: Shen Yang
+T-Square Login: syang327
+
+---------
+Problem 1
+---------
+In conservative approach
+BEQ needs extra cycles to determine if it should take a branch, 
+so there is a two cycle delay.
+
+In branch prediction, it needs two cycles to free the previously used buffers,
+so there is also a two cycle delay.
+
+---------
+Problem 2
+---------
+
+~~~~~~
+Part 1
+~~~~~~
+a)
+                       Stage
+Cycle     IF      ID      EX      MEM      WB
+-----     --      --      --      ---      --
+  1       LW       ?       ?       ?        ?
+  2       ADD      LW      ?       ?        ?
+  3       SW       ADD     LW      ?        ?
+  4       SW       ADD     NOP     LW       ?
+  5	      ADDI	  SW	   ADD	   NOP	    LW
+  6 	  ADDI    SW	   NOP	   ADD	    NOP
+  7	      ADDI	  SW	   NOP	   NOP	    ADD
+  8	      BEQ	  ADDI	   SW	   NOP	    NOP
+  9	      BEQ	  BEQ	   ADDI	   SW	    NOP
+ 10	      BEQ	  BEQ	   NOP	   ADDI	    SW
+ 11	      BEQ	  BEQ	   NOP	   NOP 	    ADDI
+ 12	      BEQ	  NOP	   BEQ	   NOP	    NOP
+ 13	      HALT	  BEQ	   NOP	   BEQ	    NOP	  
+ 14	      HALT	  NOP	   BEQ	   NOP	    BEQ
+ 15	      LW	  NOP	   NOP	   BEQ	    NOP  << END + 1
+
+b) 16/6=2.67
+
+c) 0.08s (2.67 * 6 * 5,000,000 / (1*10^9)
+
+~~~~~~
+Part 2
+~~~~~~
+
+a) 4 1WAW 3RAW
+b) 2
+c) 2
+
+~~~~~~
+Part 3
+~~~~~~
+a)
+                       Stage
+Cycle     IF      ID      EX      MEM      WB
+-----     --      --      --      ---      --
+  1       LW       ?       ?       ?        ?
+  2	      ADD	   LW	   ?	   ?	    ?
+  3	      SW	   ADD	   LW	   ?	    ?
+  4	      SW	   ADD 	   NOP	   LW	    ?
+  5   	  ADDI	   SW	   ADD	   NOP	    LW
+  6	      BEQ	   ADDI	   SW	   ADD	    NOP
+  7	      BEQ	   BEQ	   ADDI	   SW	    ADD
+  8	      BEQ	   NOP	   BEQ	   ADDI	    SW
+  9	      HALT	   BEQ	   NOP 	   BEQ	    ADDI
+ 10	      HALT	   NOP	   BEQ	   NOP	    BEQ
+ 11	      LW	   NOP	   NOP	   BEQ	    NOP
+ 12       ADD	   LW	   NOP	   NOP	    BEQ << END
+ 13	      SW	   ADD	   LW	   NOP	    NOP
+ 14	      SW 	   ADD	   NOP	   LW	    NOP
+ 15	      ADDI	   SW	   ADD	   NOP	    LW
+ 
+b) 12/6=2
+
+c) 0.06s (2 * 6 * 5,000,000 / (1*10^9)
+
+d) Include your datapath drawing as a separate attachment named 
+dataforwarding.png. Make sure your drawing is legible and neat.
+
+---------
+Problem 3
+---------
+
+~~~~~~
+Part 1
+~~~~~~
+
+*Remember the process is no longer waiting once finished.
+
+FCFS:
+                         11111111112222222222
+        time:  012345678901234567890123456789
+               ------------------------------
+     P1        RRRRR
+     P2        wwwwwRRRR
+     P3        wwwwwwwwwR
+     P4        wwwwwwwwwwRRRRRR
+     P5        wwwwwwwwwwwwwwwwRR
+
+
+SJF:
+                         11111111112222222222
+        time:  012345678901234567890123456789
+               ------------------------------
+     P1        wwwwwwwRRRRR
+     P2        wwwRRRR
+     P3        R
+     P4        wwwwwwwwwwwwRRRRRR
+     P5        wRR
+
+
+Nonpreemptive priority:
+                         11111111112222222222
+        time:  012345678901234567890123456789
+               ------------------------------
+     P1        wwwwwwRRRRR
+     P2        wwwwwwwwwwwwwwRRRR
+     P3        wwwwwwwwwwwR
+     P4        RRRRRR
+     P5        wwwwwwwwwwwwRR
+
+
+RR:
+                         11111111112222222222
+        time:  012345678901234567890123456789
+               ------------------------------
+     P1        RwwwwRwwwRwwRwwR
+     P2        wRwwwwRwwwRwwR
+     P3        wwR
+     P4        wwwRwwwRwwwRwwRwRR
+     P5        wwwwRwwwR
+
+
+~~~~~~
+Part 2
+~~~~~~
+
+
+a) Waiting Times:
+       | FCFS  | SJF   | Priority | RR    |
+       ------------------------------------
+    P1 |   0   |   7   |     6    |   11  |
+    P2 |   5   |   3   |    14    |   10  |
+    P3 |   9   |   0   |    11    |   2   |
+    P4 |   10  |   12  |     0    |   12  |
+    P5 |   16  |   1   |    12    |   7   |
+
+
+b) Turnaround Times:
+       | FCFS  | SJF   | Priority | RR    |
+       ------------------------------------
+    P1 |   5   |   12  |    11    |  16   |
+    P2 |   9   |   7   |    18    |  14   |
+    P3 |   10  |   1   |    12    |  3    |
+    P4 |   16  |   18  |    6     |  18   |
+    P5 |   18  |   3   |    14    |  9    |
+
+
+      
+c) Scheduler with minimal average waiting time is ___SJF____.
+
+d) SJF
+e) FCFS 
+f) SJF and Priority
+g) RR
+
+---------
+Problem 4
+---------
+
+First-Fit:
+		300 460 110 360 700
+       	put 200 into 300
+        100 460 110 360 700
+		put 350 into 460
+		100 110 110 360 700
+		put 420 into 700
+		100 110 110 360 280
+		put 100 into 100
+		0 110 110 360 280
+		675 cannot fit.
+Best-Fit:
+		300 460 110 360 700
+		put 200 into 300
+		100 460 110 360 700
+		put 350 into 360
+		100 460 110 10 700
+		put 420 into 460
+		100 40 110 10 700
+		put 100 into 100
+		0 40 110 10 25
+		put 675 into 700
+		0 40 110 10 25
+
+Worst-Fit:
+		300 460 110 360 700
+		put 200 into 700
+		300 460 110 360 500
+		put 350 into 500
+		300 460 110 360 150
+		put 420 into 460
+		300 40 110 360 150
+
+Most efficient is _Best-Fit_.

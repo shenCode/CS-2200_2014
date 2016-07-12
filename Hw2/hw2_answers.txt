@@ -1,0 +1,240 @@
+Homework 2
+CS 2200 Fall 2014
+
+Shen Yang
+902912328
+===================
+
+=========
+Problem 1
+=========
+
+Part 1
+------
+
+i) Without MEMIR
+
+     ifetch1
+      DrPC, LdA,LdMAR
+      Goto ifetch2
+      
+     ifetch2
+      DrMem, LdIR
+      Goto ifetch3
+     
+     ifetch3
+      func = 11
+      DrALU
+      LdPC
+      Goto lw1
+      
+     lw1
+      RegSel = 01
+      DrREG
+      LdA
+      Goto lw2
+     
+     lw2
+      DrOFF
+      LdB
+      Goto lw3
+      
+     lw3
+      func = 00
+      DrALU
+      LdMAR
+      Goto lw4
+     
+     lw4
+      DrMem
+      RegSel = 00
+      WrREG
+      Goto ifetch1
+      
+ii) With MEMIR 
+  
+      ifetch1
+       DrPC, LdA, LdMAR
+       Goto ifetch2
+      
+      ifetch2
+       DrALU, func = 11, LdPC, MemToIR, LdIR
+       Goto lw1
+       
+      lw1
+       RegSel = 01, DrREG, LdA
+       Goto lw2
+       
+      lw2
+       DrOFF, LdB
+       Goto lw3
+       
+      lw3
+       func = 00, DrALU, LdMAR
+       Goto lw4
+       
+      lw4
+       DrMem, RegSel = 00, WrREG
+       Goto ifetch1
+       
+ 
+ Part 2
+ ------
+ 
+    Without: 7
+    With: 6
+ 
+ Part 3
+ ------
+ 
+7/6 = 1.167    
+
+=========
+Problem 2
+=========
+
+Part 1
+-------
+
+a)
+
+GCC Intel: 0.21/1.4 + 0.79 = 0.94, 1/0.94 = 1.06
+Spice Intel: 0.3/1.4 + 0.70 = 0.91, 1/0.91 = 1.10
+
+GCC AMD: 0.25/1.9 + 0.75 = 0.88, 1/0.88 = 1.14
+Spice AMD: 0.17/1.9 + 0.83 = 0.92, 1/0.92 = 1.09
+
+b)
+
+AMD
+
+c)
+
+Intel
+
+Part 2
+-------
+
+4 = (20x + y) / (x + y), y = 1-x = the other instructions that are not multiplication
+
+x = 0.1579
+
+About 16%.
+
+
+=========
+Problem 3
+=========
+
+Part 1
+------
+
+task
+                   ----
+time   BG      DISK      SOUND     CLOCK
+----   --      ----      -----     -----
+
+ 0mS:                              CLOCK
+ 2mS:          DISK
+ 4mS:          DISK
+ 6mS:          DISK
+ 8mS:          DISK
+10mS:                              CLOCK
+12mS:          DISK
+14mS:                     SOUND
+16mS:                     SOUND
+18mS:                     SOUND
+20mS:                              CLOCK
+22mS:                     SOUND
+24mS:  BG
+26mS:  BG
+28mS:  BG
+30mS:                              CLOCK
+32mS:  BG
+34mS:  BG
+36mS:  BG
+38mS:  BG
+40mS:                              CLOCK
+42mS:  BG
+44mS:  BG
+46mS:  BG
+48mS:  BG
+50mS:                              CLOCK
+
+Part 2
+------
+
+200mS of clock
+100mS of disk
+160mS of sound
+
+per second
+
+540mS free for bg every second
+18.52 seconds to finish
+
+Part 3
+------
+
+Clock: 2mS
+Disk: 14mS
+Sound: 24mS
+
+
+=========
+Problem 4
+=========
+
+Part 1
+------
+
+It is a table of interrupted vectors that has the addresses of the interrupts.
+The processor uses it during normal program execution to look up for a specific handler address when a discontinuity is detected.
+
+ETR is a register to hold an unique number associated with an exception or trap when an exception/trap occurred.
+It is then used by the processor to index into the IVT.
+
+Part 2
+------
+
+Synchronous is planned and is part of a series of events.
+Asynchronous is unplanned and unexpected.
+
+Synchronous: Exception occurred.
+Asynchronous: Keypress input.
+
+Part 3
+------
+
+There is a mode bit that tells the processor if it is in the normal user or system procedure.
+
+Part 4
+------
+
+Save $k0
+Do EI
+Save the interrupted process state to stack
+Execute the interrupt handler code.
+Restore interrupted process state from stack.
+Do DI
+Restore $k0
+Execute RETI to return to the previously executing code.
+
+Part 5
+------
+
+During a normal procedure call, only the ones that are necessary are saved.
+
+During interrupt, $k0 will be saved first with all other registers following.
+When restoring, restore all the other registers then finally $k0.
+
+
+Part 6
+------
+
+Load PC from $k0 and EI.
+
+Part 7
+------
+
+Separating them ensures that the user stack will not be disturbed.

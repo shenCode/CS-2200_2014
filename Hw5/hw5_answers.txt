@@ -1,0 +1,75 @@
+CS 2200 Fall 2014
+Homework 5
+Shen Yang
+
+1.
+
+Application Layer - Responsible for supporting network-based applications. A variety of protocols employed.
+The protocols provide a common language for application level entities to communicate with each other.
+
+Transport Layer - Responsible for taking an application layer message and ferrying it between the ends of communication. 
+
+Network Layer - On the sending side, finds a way to get the packet to the intended destination address. 
+On the receiving end, passes the packet to the transport layer. 
+
+Link Layer - Ferrying the IP packets between nodes on the Internet through which a packet has to be routed from source to destination.
+
+Physical Layer - Responsible for physically moving the bits of the packet from one node to the next. 
+
+=========
+2A.
+
+2048/256 = 8 packets
+8 * (256 + 32) = 2304 bytes
+
+2B.
+
+20000 / (20 * 10^7) = 0.0001s or 0.1ms
+Time of flight = 50ms
+Delay = 300us + 300us = 600us or 0.6ms
+
+Time = 0.1 + 50 + 0.6 = 50.7ms
+
+Throughput = 20000/0.0507 = 394,477 bits/s
+
+=========
+3A.
+
+TCP and UDP.
+TCP is stream or connection oriented, supports windowing and ACK. UDP is message or datagram oriented, does not support aCK or windowing.
+UDP when packet loss is tolerable, such as video over internet.
+TCP when packet loss is intolerable, such as instant messaging.
+
+3B.
+
+When the sender sends a packet, it waits for positive acknowledgement (ACK). Recipient sends ACK for each packet containing sequence number.
+Sender waits until timeout, if no ACK until timeout, it will re-transmit the packet.
+
+The sequence number is necessary as it is the unique signature for each packet and the sender will then be able to acknowledge which packet reached.
+
+=========
+4A.
+
+It is an address for each device that is on the network and its location (how to get there).
+
+4B.
+
+Circuit switching requires a dedicated point to point connection, while packet switching move data in small packets based on destination and reassemble upon arrival in the right sequence.
+The number of connection is too much for circuit switching.
+
+=========
+5A.
+
+The ethernet protocol is CSMA/CD.
+It ensures that there are no other machines using the network before sending a message. If there is a collision, it waits for a random period of time before resending the message.
+
+5B.
+CSMA/CD - When collision occur, both devices stop transmission and waits for a random period of time before retrying.
+CSMA/CA - Signal intent to transmit before doing so.
+
+It helps to avoid the hidden terminal problem.
+
+5C.
+RTS - Request to Send
+CTS - Clear to Send
+RTS/CTS minimize the chance of collision.
